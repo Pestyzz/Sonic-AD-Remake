@@ -1,0 +1,154 @@
+[gd_scene load_steps=22 format=3 uid="uid://vuwcbawgydnn"]
+
+[ext_resource type="Script" path="res://Scripts/player.gd" id="1_h4v2n"]
+[ext_resource type="Texture2D" uid="uid://dabw18fg3wsax" path="res://Sprites/Sonic/sonic-sprites/standing.png" id="2_38hpr"]
+[ext_resource type="Texture2D" uid="uid://ycat0gg8nu4l" path="res://Sprites/Sonic/sonic-sprites/walk/sonic-walking-anim-01.png" id="3_w0igu"]
+[ext_resource type="Texture2D" uid="uid://bqxx510fial5g" path="res://Sprites/Sonic/sonic-sprites/walk/sonic-walking-anim-02.png" id="4_ot2wv"]
+[ext_resource type="Texture2D" uid="uid://bylumq8od7ce4" path="res://Sprites/Sonic/sonic-sprites/walk/sonic-walking-anim-03.png" id="5_yujup"]
+[ext_resource type="Texture2D" uid="uid://x7opnf4dk6ke" path="res://Sprites/Sonic/sonic-sprites/walk/sonic-walking-anim-04.png" id="6_i4tlp"]
+[ext_resource type="Texture2D" uid="uid://c1hvgdgeps1gk" path="res://Sprites/Sonic/sonic-sprites/walk/sonic-walking-anim-05.png" id="7_whig8"]
+[ext_resource type="Texture2D" uid="uid://bky55sus7ctim" path="res://Sprites/Sonic/sonic-sprites/walk/sonic-walking-anim-06.png" id="8_hidvt"]
+[ext_resource type="Texture2D" uid="uid://c2bm2oaulpbl" path="res://Sprites/Sonic/sonic-sprites/walk/sonic-walking-anim-07.png" id="9_0yqop"]
+[ext_resource type="Texture2D" uid="uid://hqr1gqdyi5hu" path="res://Sprites/Sonic/sonic-sprites/walk/sonic-walking-anim-08.png" id="10_eicvk"]
+[ext_resource type="Texture2D" uid="uid://druqmf8xfsegw" path="res://Sprites/Sonic/sonic-sprites/walk/sonic-walking-anim-09.png" id="11_ejrnf"]
+[ext_resource type="Texture2D" uid="uid://bfh884s2x30ww" path="res://Sprites/Sonic/sonic-sprites/walk/sonic-walking-anim-10.png" id="12_u0g2u"]
+[ext_resource type="Texture2D" uid="uid://b8nty7aeg0xtn" path="res://Sprites/Sonic/sonic-sprites/walk/sonic-walking-anim-11.png" id="13_hqbnj"]
+[ext_resource type="Texture2D" uid="uid://cq1bdi2dgf5fb" path="res://Sprites/Sonic/sonic-sprites/walk/sonic-walking-anim-12.png" id="14_w3kf2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yabxt"]
+size = Vector2(28, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6oavn"]
+atlas = ExtResource("2_38hpr")
+region = Rect2(0, 0, 28, 39)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_h2a4c"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"idle1",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6oavn")
+}],
+"loop": true,
+"name": &"standing",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_w0igu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_ot2wv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_yujup")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_i4tlp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_whig8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_hidvt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_0yqop")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_eicvk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_ejrnf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_u0g2u")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_hqbnj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_w3kf2")
+}],
+"loop": true,
+"name": &"walking",
+"speed": 5.0
+}]
+
+[sub_resource type="Animation" id="Animation_y6dro"]
+resource_name = "standing"
+length = 0.5
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"standing"]
+}
+
+[sub_resource type="Animation" id="Animation_m5i8b"]
+resource_name = "walking"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11]
+}
+
+[sub_resource type="Animation" id="Animation_w8c10"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_bxpnd"]
+_data = {
+"RESET": SubResource("Animation_w8c10"),
+"standing": SubResource("Animation_y6dro"),
+"walking": SubResource("Animation_m5i8b")
+}
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_h4v2n")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_yabxt")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_h2a4c")
+animation = &"walking"
+frame = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_bxpnd")
+}
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+anim_player = NodePath("../AnimationPlayer")
