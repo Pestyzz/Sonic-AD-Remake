@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dkg88w3yav8vn"
-path="res://.godot/imported/oc#8.png-98934c90028ab89ded2c704e6829d349.ctex"
+path="res://.godot/imported/look-up08.png-182d0f5d20182d5df421e609a2b980a9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Sonic/sonic-sprites/look-up/oc#8.png"
-dest_files=["res://.godot/imported/oc#8.png-98934c90028ab89ded2c704e6829d349.ctex"]
+source_file="res://Sprites/Sonic/sonic-sprites/look-up/look-up08.png"
+dest_files=["res://.godot/imported/look-up08.png-182d0f5d20182d5df421e609a2b980a9.ctex"]
 
 [params]
 

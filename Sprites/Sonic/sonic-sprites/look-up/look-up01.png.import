@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cpgtpia4vybhq"
-path="res://.godot/imported/oc#3.png-cb4bc14042c68a57ab845ac600eb45ed.ctex"
+uid="uid://oij4ixjq3yj1"
+path="res://.godot/imported/look-up01.png-6e350486015c6da9a9f7a3be3a2763a8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Sonic/sonic-sprites/look-up/oc#3.png"
-dest_files=["res://.godot/imported/oc#3.png-cb4bc14042c68a57ab845ac600eb45ed.ctex"]
+source_file="res://Sprites/Sonic/sonic-sprites/look-up/look-up01.png"
+dest_files=["res://.godot/imported/look-up01.png-6e350486015c6da9a9f7a3be3a2763a8.ctex"]
 
 [params]
 
