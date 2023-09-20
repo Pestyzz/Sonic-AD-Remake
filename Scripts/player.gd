@@ -2,15 +2,14 @@ extends CharacterBody2D
 
 #Variables
 var speed : float = 0.0
+var motion = Vector2.ZERO
+
+#Variables globales, pueden ser modificadas en el inspector
 @export var ACC_SPEED : float = 100
 @export var DEC_SPEED : float = 300
-const JUMP_HEIGHT = -300
-const MAX_SPEED : int = 400
-
+@export var JUMP_HEIGHT : float = -300
+@export var MAX_SPEED : float = 400
 @export var GRAVITY : float = 16.0
-
-const floor = Vector2(0, 1)
-var motion = Vector2.ZERO
 
 #Variables de estado
 var running : bool
@@ -21,7 +20,8 @@ var is_grounded : bool
 #Las físicas del personaje se actualizan cada frame
 func _process(delta):
 	motion_ctrl(delta)
-	
+
+#Obtiene el valor de la direccion x del pj
 func get_dir() -> Vector2:
 	#Eje x
 	#Derecha = 1
@@ -30,19 +30,19 @@ func get_dir() -> Vector2:
 	var axis = Vector2.ZERO
 	axis.x = Input.get_axis('left', 'right')
 	return axis
-	
-	
+
+
 func motion_ctrl(delta):
 	velocity = motion
 	if not is_on_floor():
 		motion.y += GRAVITY * delta
 		
-	#Si la direción es diferente de cero, quiere decir que se está moviendo
+	#Si la direción es diferente de cero, quiere decir que se está moviendo.
 	if get_dir().x != 0:
-		#Para moverse motion.x calcula la direcion[1/-1] por la velocidad que va incrementando
+		#Para moverse motion.x calcula la direcion[1/-1] por la velocidad que va incrementando.
 		motion.x = get_dir().x * speed
 	else:
-		#Esto hace que Sonic siga corriendo al dejar de presionar, pero disminuye su velocidad hasta 0
+		#Esto hace que Sonic siga corriendo al dejar de presionar y disminuye su velocidad hasta 0.
 		if motion.x < 0:
 			motion.x = sign(-speed) * speed
 		elif motion.x > 0:
@@ -52,12 +52,13 @@ func motion_ctrl(delta):
 	run(delta)
 	jump(delta)
 	move_and_slide()
+
 #Animaciones Sonic
 func anim():
-	#Si está en dir-derecha, continúa normal
+	#Si está en dir-derecha, no flip.
 	if get_dir().x == 1:
 		$AnimatedSprite2D.flip_h = false
-	#Si está en dir-izquierda, voltea		
+	#Si está en dir-izquierda, flips.
 	elif get_dir().x == -1:
 		$AnimatedSprite2D.flip_h = true
 	#---------------------------------------------
@@ -105,16 +106,12 @@ func jump(delta):
 	if is_on_floor():
 		can_jump = true
 		jumping = false
-		
 	else:
 		jumping = true		
 		can_jump = false
-		
 	#-------------------------
 	if Input.is_action_just_pressed('jump'):
 		if is_on_floor() or can_jump:
 			motion.y = JUMP_HEIGHT
 			jumping = true
 			can_jump = false
-
-	print(motion)

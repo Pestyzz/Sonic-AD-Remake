@@ -2997,8 +2997,9 @@ offset_bottom = 40.0
 
 [node name="RichTextLabel" type="RichTextLabel" parent="Control"]
 layout_mode = 0
+offset_top = 52.0
 offset_right = 80.0
-offset_bottom = 45.0
+offset_bottom = 97.0
 text = "Left/Right
 Space"
 scroll_active = false
