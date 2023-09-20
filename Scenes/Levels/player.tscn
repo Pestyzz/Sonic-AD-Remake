@@ -401,7 +401,7 @@ _data = {
 
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_h4v2n")
-ACC_SPEED = 120.0
+ACC_SPEED = 170.0
 GRAVITY = 590.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
