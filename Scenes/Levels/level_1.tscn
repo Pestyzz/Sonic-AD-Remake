@@ -2989,10 +2989,6 @@ layer_0/tile_data = PackedInt32Array(458753, 1245184, 0, 458754, 1310720, 0, 458
 [node name="Player" parent="." instance=ExtResource("2_dnmgo")]
 position = Vector2(42, 160)
 
-[node name="Camera2D" type="Camera2D" parent="Player"]
-position = Vector2(2, 0)
-enabled = false
-
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
