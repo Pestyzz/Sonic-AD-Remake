@@ -12,10 +12,15 @@ var motion = Vector2.ZERO
 @export var GRAVITY : float = 16.0
 
 #Variables de estado
-var running : bool
 @onready var can_jump : bool = false
+@onready var can_spindash : bool = false
 var jumping : bool
-var is_grounded : bool
+var running : bool
+var look_up : bool
+var crouch : bool
+
+#Variable anim_sprite inicializada al cargar
+@onready var anim_sprite = get_node("AnimatedSprite2D")
 
 #Las físicas del personaje se actualizan cada frame
 func _process(delta):
@@ -48,35 +53,42 @@ func motion_ctrl(delta):
 		elif motion.x > 0:
 			motion.x = sign(speed) * speed
 	
-	anim()
+	animation()
 	run(delta)
 	jump(delta)
+	lookup()
 	move_and_slide()
 
 #Animaciones Sonic
-func anim():
+func animation():
 	#Si está en dir-derecha, no flip.
 	if get_dir().x == 1:
-		$AnimatedSprite2D.flip_h = false
+		anim_sprite.flip_h = false
 	#Si está en dir-izquierda, flips.
 	elif get_dir().x == -1:
-		$AnimatedSprite2D.flip_h = true
+		anim_sprite.flip_h = true
 	#---------------------------------------------
 	#Walk/Jogg/Run animations control.
 	if is_on_floor():
 		if running == true or speed != 0:
 			if speed > 0 and speed < 200:
-				$AnimatedSprite2D.play("walking")
+				anim_sprite.play("walking")
 			elif speed > 200 and speed < 270:
-				$AnimatedSprite2D.play("jogging")
+				anim_sprite.play("jogging")
 			else:
-				$AnimatedSprite2D.play("running")
+				anim_sprite.play("running")
 		else:
-			$AnimatedSprite2D.play("standing")
+			anim_sprite.play("standing")
 	#---------------------------------------------
 	#Jump animation control.
 	if not is_on_floor() and !can_jump:
-		$AnimatedSprite2D.play("jumping")
+		anim_sprite.play("jumping")
+	#---------------------------------------------
+	#Look up animation control.
+	if is_on_floor() and !running and look_up:
+		anim_sprite.play("look_up")
+
+#Funciones de estado
 
 func run(delta):
 	#Si el personaje está yendo en alguna dirección, está corriendo
@@ -115,3 +127,16 @@ func jump(delta):
 			motion.y = JUMP_HEIGHT
 			jumping = true
 			can_jump = false
+
+func lookup():
+	if is_on_floor() and Input.is_action_pressed("look up"):
+		look_up = true
+	else:
+		look_up = false
+		
+func spin_dash():
+	if is_on_floor() and crouch:
+		if get_dir().x == 1 and Input.is_action_pressed("right"):
+			can_spindash = true
+		elif get_dir().x == -1 and Input.is_action_pressed("left"):
+			can_spindash = true;
