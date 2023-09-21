@@ -19,11 +19,13 @@ var running : bool
 var look_up : bool
 var crouch : bool
 
-#Variable anim_sprite inicializada al cargar
-@onready var anim_sprite = get_node("AnimatedSprite2D")
+#Variable anim_sprite inicializada al cargar que obtiene la clase AnimationPlayer
+@onready var anim_sprite = get_node("Sprite2D/AnimationPlayer")
+#Variable que obtiene la clase Sprite2D al cargar
+@onready var sprite = get_node("Sprite2D")
 
 #Las físicas del personaje se actualizan cada frame
-func _process(delta):
+func _physics_process(delta):
 	motion_ctrl(delta)
 
 #Obtiene el valor de la direccion x del pj
@@ -63,25 +65,29 @@ func motion_ctrl(delta):
 func animation():
 	#Si está en dir-derecha, no flip.
 	if get_dir().x == 1:
-		anim_sprite.flip_h = false
+		sprite.scale.x = 1 
 	#Si está en dir-izquierda, flips.
 	elif get_dir().x == -1:
-		anim_sprite.flip_h = true
+		sprite.scale.x = -1
 	#---------------------------------------------
 	#Walk/Jogg/Run animations control.
 	if is_on_floor():
 		if running == true or speed != 0:
 			if speed > 0 and speed < 200:
+				anim_sprite.speed_scale = 2.5
 				anim_sprite.play("walking")
 			elif speed > 200 and speed < 270:
+				anim_sprite.speed_scale = 3.0
 				anim_sprite.play("jogging")
 			else:
+				anim_sprite.speed_scale = 4.0
 				anim_sprite.play("running")
 		else:
 			anim_sprite.play("standing")
 	#---------------------------------------------
 	#Jump animation control.
 	if not is_on_floor() and !can_jump:
+		anim_sprite.speed_scale = 2.5
 		anim_sprite.play("jumping")
 	#---------------------------------------------
 	#Look up animation control.
