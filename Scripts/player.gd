@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 #Variables
 var speed : float = 0.0
-var motion = Vector2.ZERO
+var motion : Vector2 = Vector2.ZERO
 
 #Variables globales, pueden ser modificadas en el inspector
 @export var ACC_SPEED : float = 100
@@ -20,9 +20,16 @@ var look_up : bool
 var crouch : bool
 
 #Variable anim_sprite inicializada al cargar que obtiene la clase AnimationPlayer
-@onready var anim_sprite = get_node("Sprite2D/AnimationPlayer")
+@onready var anim_sprite : AnimationPlayer = get_node("Sprite2D/AnimationPlayer")
+#@onready var anim_tree : AnimationTree = get_node("Sprite2D/AnimationTree")
+#@onready var anim_tree_pb = anim_tree.get("parameters/playback")
 #Variable que obtiene la clase Sprite2D al cargar
-@onready var sprite = get_node("Sprite2D")
+@onready var sprite : Sprite2D= get_node("Sprite2D")
+
+
+
+func _process(delta):
+	animation()
 
 #Las físicas del personaje se actualizan cada frame
 func _physics_process(delta):
@@ -34,10 +41,9 @@ func get_dir() -> Vector2:
 	#Derecha = 1
 	#Izquierda = -1
 	#Ninguno = 0
-	var axis = Vector2.ZERO
+	var axis : Vector2 = Vector2.ZERO
 	axis.x = Input.get_axis('left', 'right')
 	return axis
-
 
 func motion_ctrl(delta):
 	velocity = motion
@@ -54,8 +60,7 @@ func motion_ctrl(delta):
 			motion.x = sign(-speed) * speed
 		elif motion.x > 0:
 			motion.x = sign(speed) * speed
-	
-	animation()
+			
 	run(delta)
 	jump(delta)
 	lookup()
@@ -84,10 +89,11 @@ func animation():
 				anim_sprite.play("running")
 		else:
 			anim_sprite.play("standing")
+			
 	#---------------------------------------------
 	#Jump animation control.
 	if not is_on_floor() and !can_jump:
-		anim_sprite.speed_scale = 2.5
+		anim_sprite.speed_scale = 5
 		anim_sprite.play("jumping")
 	#---------------------------------------------
 	#Look up animation control.
