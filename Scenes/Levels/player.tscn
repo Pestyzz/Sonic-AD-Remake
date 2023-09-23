@@ -314,7 +314,7 @@ nodes/jumping/position = Vector2(0, 220)
 nodes/output/position = Vector2(780, 60)
 nodes/standing/node = SubResource("AnimationNodeAnimation_ymldp")
 nodes/standing/position = Vector2(380, -100)
-node_connections = [&"output", 0, &"Transition", &"TimeScale", 0, &"Walk-Jog-Run", &"Transition", 0, &"standing", &"Transition", 1, &"TimeScale", &"Transition", 2, &"TimeScale 2", &"Transition", 3, &"TimeScale 3", &"TimeScale 2", 0, &"jumping", &"TimeScale 3", 0, &"Look up"]
+node_connections = [&"output", 0, &"Transition", &"TimeScale", 0, &"Walk-Jog-Run", &"TimeScale 2", 0, &"jumping", &"TimeScale 3", 0, &"Look up", &"Transition", 0, &"standing", &"Transition", 1, &"TimeScale", &"Transition", 2, &"TimeScale 2", &"Transition", 3, &"TimeScale 3"]
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_s2eql"]
 advance_mode = 2

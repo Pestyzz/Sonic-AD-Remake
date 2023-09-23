@@ -22,7 +22,6 @@ var crouch : bool
 #Variable anim_sprite inicializada al cargar que obtiene la clase AnimationPlayer
 @onready var anim_sprite : AnimationPlayer = get_node("Sprite2D/AnimationPlayer")
 @onready var anim_tree : AnimationTree = get_node("Sprite2D/AnimationTree")
-@onready var anim_tree_pb = anim_tree.get("parameters/playback")
 #Variable que obtiene la clase Sprite2D al cargar
 @onready var sprite : Sprite2D= get_node("Sprite2D")
 
@@ -79,14 +78,14 @@ func animation():
 	#---------------------------------------------
 	#Walk/Jog/Run animations control.
 	if is_on_floor():
-		if running or speed != 0:
+		if speed != 0:
 			anim_tree["parameters/States/Transition/transition_request"] = "moving"
 			anim_tree["parameters/States/Walk-Jog-Run/Walk-Jog-Run/blend_position"] = speed
 		elif is_on_floor() and !running and !look_up:
 			anim_tree["parameters/States/Transition/transition_request"] = "standing"
 	#---------------------------------------------
 	#Jump animation control.
-	if !can_jump:
+	if jumping:
 		anim_tree["parameters/States/Transition/transition_request"] = "jumping"
 	#---------------------------------------------
 	#Look up animation control.
@@ -95,7 +94,7 @@ func animation():
 		anim_tree["parameters/States/Transition/transition_request"] = "lookup"
 	else:
 		anim_tree["parameters/States/Look up/conditions/not_lookup"] = true
-		
+
 #Funciones de estado
 func run(delta):
 	#Si el personaje está yendo en alguna dirección, está corriendo
