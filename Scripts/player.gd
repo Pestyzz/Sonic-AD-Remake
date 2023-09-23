@@ -21,12 +21,13 @@ var crouch : bool
 
 #Variable anim_sprite inicializada al cargar que obtiene la clase AnimationPlayer
 @onready var anim_sprite : AnimationPlayer = get_node("Sprite2D/AnimationPlayer")
-#@onready var anim_tree : AnimationTree = get_node("Sprite2D/AnimationTree")
-#@onready var anim_tree_pb = anim_tree.get("parameters/playback")
+@onready var anim_tree : AnimationTree = get_node("Sprite2D/AnimationTree")
+@onready var anim_tree_pb = anim_tree.get("parameters/playback")
 #Variable que obtiene la clase Sprite2D al cargar
 @onready var sprite : Sprite2D= get_node("Sprite2D")
 
-
+func _ready():
+	anim_tree.active = true
 
 func _process(delta):
 	animation()
@@ -47,6 +48,8 @@ func get_dir() -> Vector2:
 
 func motion_ctrl(delta):
 	velocity = motion
+	
+	#Se aplica la gravedad al no estar en el suelo.
 	if not is_on_floor():
 		motion.y += GRAVITY * delta
 		
@@ -60,10 +63,9 @@ func motion_ctrl(delta):
 			motion.x = sign(-speed) * speed
 		elif motion.x > 0:
 			motion.x = sign(speed) * speed
-			
 	run(delta)
-	jump(delta)
-	lookup()
+	jump()
+	lookup(delta)
 	move_and_slide()
 
 #Animaciones Sonic
@@ -71,37 +73,30 @@ func animation():
 	#Si está en dir-derecha, no flip.
 	if get_dir().x == 1:
 		sprite.scale.x = 1 
-	#Si está en dir-izquierda, flips.
+	#Si está en dir-izquierda, flip.
 	elif get_dir().x == -1:
 		sprite.scale.x = -1
 	#---------------------------------------------
-	#Walk/Jogg/Run animations control.
+	#Walk/Jog/Run animations control.
 	if is_on_floor():
-		if running == true or speed != 0:
-			if speed > 0 and speed < 200:
-				anim_sprite.speed_scale = 2.5
-				anim_sprite.play("walking")
-			elif speed > 200 and speed < 270:
-				anim_sprite.speed_scale = 3.0
-				anim_sprite.play("jogging")
-			else:
-				anim_sprite.speed_scale = 4.0
-				anim_sprite.play("running")
-		else:
-			anim_sprite.play("standing")
-			
+		if running or speed != 0:
+			anim_tree["parameters/States/Transition/transition_request"] = "moving"
+			anim_tree["parameters/States/Walk-Jog-Run/Walk-Jog-Run/blend_position"] = speed
+		elif is_on_floor() and !running and !look_up:
+			anim_tree["parameters/States/Transition/transition_request"] = "standing"
 	#---------------------------------------------
 	#Jump animation control.
-	if not is_on_floor() and !can_jump:
-		anim_sprite.speed_scale = 5
-		anim_sprite.play("jumping")
+	if !can_jump:
+		anim_tree["parameters/States/Transition/transition_request"] = "jumping"
 	#---------------------------------------------
 	#Look up animation control.
-	if is_on_floor() and !running and look_up:
-		anim_sprite.play("look_up")
-
+	if look_up:
+		anim_tree["parameters/States/Look up/conditions/not_lookup"] = false
+		anim_tree["parameters/States/Transition/transition_request"] = "lookup"
+	else:
+		anim_tree["parameters/States/Look up/conditions/not_lookup"] = true
+		
 #Funciones de estado
-
 func run(delta):
 	#Si el personaje está yendo en alguna dirección, está corriendo
 	if get_dir().x == 1 or get_dir().x == -1:
@@ -125,27 +120,31 @@ func run(delta):
 				#Si la velocidad llega al mínimo, se mantiene ahí.
 				speed = 0
 
-func jump(delta):
+func jump():
 	#Se define si se puede saltar o no
 	if is_on_floor():
 		can_jump = true
 		jumping = false
 	else:
-		jumping = true		
 		can_jump = false
 	#-------------------------
-	if Input.is_action_just_pressed('jump'):
-		if is_on_floor() or can_jump:
+	if is_on_floor() and Input.is_action_just_pressed('jump'):
+		if can_jump:
 			motion.y = JUMP_HEIGHT
 			jumping = true
 			can_jump = false
 
-func lookup():
-	if is_on_floor() and Input.is_action_pressed("look up"):
+func lookup(delta):
+	var target_camera_y : float = 0.0
+	var camera_smoothing_speed : float = 2.0
+	if is_on_floor() and Input.is_action_pressed("look up") and speed == 0:
 		look_up = true
+		target_camera_y = -60.0
 	else:
 		look_up = false
-		
+		target_camera_y = 0.0
+	$Camera2D.position.y = lerp($Camera2D.position.y, target_camera_y, camera_smoothing_speed * delta)
+
 func spin_dash():
 	if is_on_floor() and crouch:
 		if get_dir().x == 1 and Input.is_action_pressed("right"):
