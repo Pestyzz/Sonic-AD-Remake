@@ -104,20 +104,25 @@ func animation():
 			
 		if stopping == true:
 			anim_tree["parameters/States/Transition/transition_request"] = "lookup"
+	else:
+		look_up = false;
 	#---------------------------------------------
 	#Jump animation control.
 	if jumping:
+		look_up = false;
 		anim_tree["parameters/States/Transition/transition_request"] = "jumping"
 	#---------------------------------------------
 	#Look up animation control.
-	if Input.is_action_pressed("look up") and speed == 0:
+	if Input.is_action_pressed("look up") and speed == 0 and is_on_floor():
 		anim_tree["parameters/States/Transition/transition_request"] = "lookup"
-	if look_up and !Input.is_action_pressed("look up") and standing:
+	if look_up and !Input.is_action_pressed("look up"):
 		anim_tree["parameters/States/Transition/transition_request"] = "lookup end"
 		await get_tree().create_timer(0.4).timeout
 		if anim_tree.animation_player_changed:
 			look_up = false
 			
+	if !is_on_floor():
+		anim_tree["parameters/States/Transition/transition_request"] = "jumping"
 
 #Funciones de estado
 func run(delta):
@@ -129,7 +134,7 @@ func run(delta):
 			if speed >= (MAX_SPEED * 0.6):
 				stopping = true;
 				timer = 20;
-				speed -= speed * 0.4;
+				speed -= speed * 0.5;
 				if motion.x > 0:
 					motion.x = sign(-speed) * speed;
 				elif motion.x < 0:
@@ -141,14 +146,13 @@ func run(delta):
 	lastTurn = sign(motion.x);
 	
 	#Si el personaje está yendo en alguna dirección, está corriendo
-	if is_on_floor():
-		if get_dir().x == 1 or get_dir().x == -1:
-			running = true
-			standing = false
-		elif get_dir().x == 0:
-			running = false
-			if speed == 0:
-				standing = true
+	if get_dir().x == 1 or get_dir().x == -1:
+		running = true
+		standing = false
+	elif get_dir().x == 0:
+		running = false
+		if speed == 0:
+			standing = true
 		
 	#Se define la velocidad de Sonic dependiendo de si está o no corriendo.
 	if running:
@@ -168,7 +172,7 @@ func run(delta):
 
 func jump(delta):
 	#Se define si se puede saltar o no
-	if is_on_floor() and !look_up:
+	if is_on_floor():
 		can_jump = true
 		jumping = false
 	else:
@@ -179,8 +183,7 @@ func jump(delta):
 			motion.y = JUMP_HEIGHT
 			jumping = true
 			can_jump = false
-			standing = false
-			look_up = false
+			stopping = false;
 
 func lookup(delta):
 	var target_camera_y : float = 0.0
