@@ -13,13 +13,16 @@ var motion : Vector2 = Vector2.ZERO
 #Variables de estado
 @onready var can_jump : bool = false
 @onready var can_spindash : bool = false
+@onready var can_lookup : bool = false
+@onready var stopping : bool = false
+@onready var standing : bool = true
+@onready  var jumping : bool = false
+@onready var look_up : bool = false
 var timer : int = 0;
-var jumping : bool
 var running : bool
-var look_up : bool
 var crouch : bool
-var lastTurn : float;
-var stopping : bool = false;
+var lastTurn : float
+
 
 #Variable anim_sprite inicializada al cargar que obtiene la clase AnimationPlayer
 @onready var anim_sprite : AnimationPlayer = get_node("Sprite2D/AnimationPlayer")
@@ -29,7 +32,7 @@ var stopping : bool = false;
 
 func _ready():
 	anim_tree.active = true
-
+	can_lookup = false
 func _process(delta):
 	animation()
 
@@ -71,8 +74,13 @@ func motion_ctrl(delta):
 				stopping = false;
 			else:
 				timer -= 1;
+				
 	run(delta)
-	jump()
+	
+	if is_on_floor():
+		jump(delta)
+		
+	print(anim_tree["parameters/States/Transition/transition_request"], standing)
 	lookup(delta)
 	move_and_slide()
 
@@ -91,10 +99,10 @@ func animation():
 		if speed != 0:
 			anim_tree["parameters/States/Transition/transition_request"] = "moving"
 			anim_tree["parameters/States/Walk-Jog-Run/Walk-Jog-Run/blend_position"] = speed
-		elif is_on_floor() and !running and !look_up:
+		if is_on_floor() and !running and !look_up and standing:
 			anim_tree["parameters/States/Transition/transition_request"] = "standing"
 			
-		if (stopping == true):
+		if stopping == true:
 			anim_tree["parameters/States/Transition/transition_request"] = "lookup"
 	#---------------------------------------------
 	#Jump animation control.
@@ -102,11 +110,14 @@ func animation():
 		anim_tree["parameters/States/Transition/transition_request"] = "jumping"
 	#---------------------------------------------
 	#Look up animation control.
-	if look_up:
-		anim_tree["parameters/States/Look up/conditions/not_lookup"] = false
+	if Input.is_action_pressed("look up") and speed == 0:
 		anim_tree["parameters/States/Transition/transition_request"] = "lookup"
-	else:
-		anim_tree["parameters/States/Look up/conditions/not_lookup"] = true
+	if look_up and !Input.is_action_pressed("look up") and standing:
+		anim_tree["parameters/States/Transition/transition_request"] = "lookup end"
+		await get_tree().create_timer(0.4).timeout
+		if anim_tree.animation_player_changed:
+			look_up = false
+			
 
 #Funciones de estado
 func run(delta):
@@ -118,7 +129,7 @@ func run(delta):
 			if speed >= (MAX_SPEED * 0.6):
 				stopping = true;
 				timer = 20;
-				speed -= speed * 0.7;
+				speed -= speed * 0.4;
 				if motion.x > 0:
 					motion.x = sign(-speed) * speed;
 				elif motion.x < 0:
@@ -130,10 +141,14 @@ func run(delta):
 	lastTurn = sign(motion.x);
 	
 	#Si el personaje está yendo en alguna dirección, está corriendo
-	if get_dir().x == 1 or get_dir().x == -1:
-		running = true
-	else:
-		running = false
+	if is_on_floor():
+		if get_dir().x == 1 or get_dir().x == -1:
+			running = true
+			standing = false
+		elif get_dir().x == 0:
+			running = false
+			if speed == 0:
+				standing = true
 		
 	#Se define la velocidad de Sonic dependiendo de si está o no corriendo.
 	if running:
@@ -151,9 +166,9 @@ func run(delta):
 				#Si la velocidad llega al mínimo, se mantiene ahí.
 				speed = 0
 
-func jump():
+func jump(delta):
 	#Se define si se puede saltar o no
-	if is_on_floor():
+	if is_on_floor() and !look_up:
 		can_jump = true
 		jumping = false
 	else:
@@ -164,16 +179,26 @@ func jump():
 			motion.y = JUMP_HEIGHT
 			jumping = true
 			can_jump = false
+			standing = false
+			look_up = false
 
 func lookup(delta):
 	var target_camera_y : float = 0.0
 	var camera_smoothing_speed : float = 2.0
-	if is_on_floor() and Input.is_action_pressed("look up") and speed == 0:
-		look_up = true
-		target_camera_y = -60.0
+
+	if speed == 0 and standing and is_on_floor() and !jump(delta):
+		can_lookup = true
 	else:
-		look_up = false
-		target_camera_y = 0.0
+		can_lookup = false
+		
+	if standing and can_lookup and is_on_floor():
+		if Input.is_action_pressed("look up"):
+			look_up = true
+			standing = false
+			target_camera_y = -60.0
+		elif !Input.is_action_pressed("look up") and can_lookup:
+			standing = true
+			target_camera_y = 0.0
 	$Camera2D.position.y = lerp($Camera2D.position.y, target_camera_y, camera_smoothing_speed * delta)
 
 func spin_dash():
