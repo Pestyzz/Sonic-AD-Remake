@@ -83,8 +83,7 @@ func motion_ctrl(delta):
 	lookup(delta)
 	move_and_slide()
 	
-	print("lastTurn: ", last_turn)
-	print("Motion.x: ", sign(motion.x))
+	print(anim_tree["parameters/States/Walk-Jog-Run/Walk-Jog-Run/blend_position"])
 
 #Animaciones Sonic
 func animation():
