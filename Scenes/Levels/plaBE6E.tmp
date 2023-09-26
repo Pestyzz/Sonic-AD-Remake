@@ -1,4 +1,4 @@
-[gd_scene load_steps=98 format=3 uid="uid://vuwcbawgydnn"]
+[gd_scene load_steps=80 format=3 uid="uid://vuwcbawgydnn"]
 
 [ext_resource type="Script" path="res://Scripts/player.gd" id="1_h4v2n"]
 [ext_resource type="Texture2D" uid="uid://dabw18fg3wsax" path="res://Sprites/Sonic/sonic-sprites/standing.png" id="2_38hpr"]
@@ -50,18 +50,6 @@
 [ext_resource type="Texture2D" uid="uid://xgdmnpwtq3vs" path="res://Sprites/Sonic/sonic-sprites/look-up/lookup06.png" id="48_nsd4k"]
 [ext_resource type="Texture2D" uid="uid://bl3pmghf4wefr" path="res://Sprites/Sonic/sonic-sprites/look-up/lookup07.png" id="49_cit5a"]
 [ext_resource type="Texture2D" uid="uid://dkg88w3yav8vn" path="res://Sprites/Sonic/sonic-sprites/look-up/lookup08.png" id="50_hj3wr"]
-[ext_resource type="Texture2D" uid="uid://cnhqjlndj3p7y" path="res://Sprites/Sonic/sonic-sprites/stopping/stopping01.png" id="51_s2xwg"]
-[ext_resource type="Texture2D" uid="uid://dp7hlj2784uqf" path="res://Sprites/Sonic/sonic-sprites/stopping/stopping02.png" id="52_ytpg5"]
-[ext_resource type="Texture2D" uid="uid://draenp3hknarc" path="res://Sprites/Sonic/sonic-sprites/stopping/stopping03.png" id="53_c4mhi"]
-[ext_resource type="Texture2D" uid="uid://dxc053hj1ppkr" path="res://Sprites/Sonic/sonic-sprites/stopping/stopping04.png" id="54_4xi3b"]
-[ext_resource type="Texture2D" uid="uid://dcnm4wbftytyt" path="res://Sprites/Sonic/sonic-sprites/stopping/stopping05.png" id="55_vvlj0"]
-[ext_resource type="Texture2D" uid="uid://xyjtlfpwyv72" path="res://Sprites/Sonic/sonic-sprites/stopping/stopping06.png" id="56_ecqtc"]
-[ext_resource type="Texture2D" uid="uid://t4rafe7nn47x" path="res://Sprites/Sonic/sonic-sprites/stopping/stopping07.png" id="57_oe8oe"]
-[ext_resource type="Texture2D" uid="uid://b6roe6v8th7lv" path="res://Sprites/Sonic/sonic-sprites/stopping/stopping08.png" id="58_pq3gn"]
-[ext_resource type="Texture2D" uid="uid://df43ui68o8w6v" path="res://Sprites/Sonic/sonic-sprites/stopping/stopping09.png" id="59_giawb"]
-[ext_resource type="Texture2D" uid="uid://cdtrxxmm7ucg4" path="res://Sprites/Sonic/sonic-sprites/stopping/turn01.png" id="60_agujr"]
-[ext_resource type="Texture2D" uid="uid://bijr32eq5rlku" path="res://Sprites/Sonic/sonic-sprites/stopping/turn02.png" id="61_aobka"]
-[ext_resource type="Texture2D" uid="uid://b726g1gvgc1qx" path="res://Sprites/Sonic/sonic-sprites/stopping/turn03.png" id="62_64384"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yabxt"]
 size = Vector2(28, 40)
@@ -198,38 +186,6 @@ tracks/0/keys = {
 "values": [ExtResource("2_38hpr")]
 }
 
-[sub_resource type="Animation" id="Animation_7nxkh"]
-resource_name = "stopping"
-length = 1.70001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:texture")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [ExtResource("51_s2xwg"), ExtResource("51_s2xwg"), ExtResource("52_ytpg5"), ExtResource("52_ytpg5"), ExtResource("53_c4mhi"), ExtResource("53_c4mhi"), ExtResource("54_4xi3b"), ExtResource("54_4xi3b"), ExtResource("55_vvlj0"), ExtResource("55_vvlj0"), ExtResource("56_ecqtc"), ExtResource("56_ecqtc"), ExtResource("57_oe8oe"), ExtResource("57_oe8oe"), ExtResource("58_pq3gn"), ExtResource("58_pq3gn"), ExtResource("59_giawb"), ExtResource("59_giawb")]
-}
-
-[sub_resource type="Animation" id="Animation_a1ml0"]
-resource_name = "turn"
-length = 0.60001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:texture")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [ExtResource("60_agujr"), ExtResource("60_agujr"), ExtResource("61_aobka"), ExtResource("61_aobka"), ExtResource("62_64384"), ExtResource("62_64384"), ExtResource("62_64384")]
-}
-
 [sub_resource type="Animation" id="Animation_m5i8b"]
 resource_name = "walking"
 length = 1.50001
@@ -257,8 +213,6 @@ _data = {
 "lookup-start": SubResource("Animation_np5yk"),
 "running": SubResource("Animation_hx5gl"),
 "standing": SubResource("Animation_y6dro"),
-"stopping": SubResource("Animation_7nxkh"),
-"turn": SubResource("Animation_a1ml0"),
 "walking": SubResource("Animation_m5i8b")
 }
 
@@ -270,10 +224,6 @@ animation = &"lookup-start"
 [sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_hfqdo"]
 
 [sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_ymmlq"]
-
-[sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_t74ms"]
-
-[sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_s54xv"]
 
 [sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_48xcf"]
 
@@ -297,9 +247,6 @@ input_4/reset = true
 input_5/name = "stopping"
 input_5/auto_advance = false
 input_5/reset = true
-input_6/name = "turn"
-input_6/auto_advance = false
-input_6/reset = true
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_6ncq1"]
 animation = &"walking"
@@ -341,44 +288,30 @@ animation = &"standing"
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_dutsu"]
 animation = &"lookup-end"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_jqk3c"]
-animation = &"stopping"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_teimo"]
-animation = &"turn"
-
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_gg3dm"]
-graph_offset = Vector2(-370.938, -65.6876)
+graph_offset = Vector2(-29.8732, -18.7734)
 nodes/Animation/node = SubResource("AnimationNodeAnimation_hhwt4")
-nodes/Animation/position = Vector2(60, 340)
+nodes/Animation/position = Vector2(128.79, 403.358)
 nodes/TimeScale/node = SubResource("AnimationNodeTimeScale_48xcf")
-nodes/TimeScale/position = Vector2(286.794, 80)
+nodes/TimeScale/position = Vector2(280, 20)
 "nodes/TimeScale 2/node" = SubResource("AnimationNodeTimeScale_fvxln")
-"nodes/TimeScale 2/position" = Vector2(280, 200)
+"nodes/TimeScale 2/position" = Vector2(200, 200)
 "nodes/TimeScale 3/node" = SubResource("AnimationNodeTimeScale_hfqdo")
-"nodes/TimeScale 3/position" = Vector2(280, 320)
+"nodes/TimeScale 3/position" = Vector2(400, 340)
 "nodes/TimeScale 4/node" = SubResource("AnimationNodeTimeScale_ymmlq")
-"nodes/TimeScale 4/position" = Vector2(280, 440)
-"nodes/TimeScale 5/node" = SubResource("AnimationNodeTimeScale_t74ms")
-"nodes/TimeScale 5/position" = Vector2(280, 560)
-"nodes/TimeScale 6/node" = SubResource("AnimationNodeTimeScale_s54xv")
-"nodes/TimeScale 6/position" = Vector2(280, 700)
+"nodes/TimeScale 4/position" = Vector2(400, 520)
 nodes/Transition/node = SubResource("AnimationNodeTransition_6kqk7")
-nodes/Transition/position = Vector2(800, 40)
+nodes/Transition/position = Vector2(880, 140)
 nodes/Walk-Jog-Run/node = SubResource("AnimationNodeStateMachine_b6o3y")
-nodes/Walk-Jog-Run/position = Vector2(60, 80)
+nodes/Walk-Jog-Run/position = Vector2(80, 60)
 nodes/jumping/node = SubResource("AnimationNodeAnimation_6jmbi")
-nodes/jumping/position = Vector2(60, 220)
-nodes/output/position = Vector2(1000, 40)
+nodes/jumping/position = Vector2(0, 220)
+nodes/output/position = Vector2(1060, 160)
 nodes/standing/node = SubResource("AnimationNodeAnimation_ymldp")
-nodes/standing/position = Vector2(60, -40)
+nodes/standing/position = Vector2(380, -100)
 nodes/stoping/node = SubResource("AnimationNodeAnimation_dutsu")
-nodes/stoping/position = Vector2(60, 460)
-nodes/stopping/node = SubResource("AnimationNodeAnimation_jqk3c")
-nodes/stopping/position = Vector2(60, 580)
-nodes/turn/node = SubResource("AnimationNodeAnimation_teimo")
-nodes/turn/position = Vector2(60, 700)
-node_connections = [&"output", 0, &"Transition", &"TimeScale", 0, &"Walk-Jog-Run", &"TimeScale 2", 0, &"jumping", &"TimeScale 3", 0, &"Animation", &"TimeScale 4", 0, &"stoping", &"TimeScale 5", 0, &"stopping", &"TimeScale 6", 0, &"turn", &"Transition", 0, &"standing", &"Transition", 1, &"TimeScale", &"Transition", 2, &"TimeScale 2", &"Transition", 3, &"TimeScale 3", &"Transition", 4, &"TimeScale 4", &"Transition", 5, &"TimeScale 5", &"Transition", 6, &"TimeScale 6"]
+nodes/stoping/position = Vector2(200, 580)
+node_connections = [&"output", 0, &"Transition", &"TimeScale", 0, &"Walk-Jog-Run", &"TimeScale 2", 0, &"jumping", &"TimeScale 3", 0, &"Animation", &"TimeScale 4", 0, &"stoping", &"Transition", 0, &"standing", &"Transition", 1, &"TimeScale", &"Transition", 2, &"TimeScale 2", &"Transition", 3, &"TimeScale 3", &"Transition", 4, &"TimeScale 4"]
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_s2eql"]
 advance_mode = 2
@@ -387,7 +320,7 @@ advance_mode = 2
 states/End/position = Vector2(1150, 100)
 states/Start/position = Vector2(177, 100)
 states/States/node = SubResource("AnimationNodeBlendTree_gg3dm")
-states/States/position = Vector2(384, 100)
+states/States/position = Vector2(385, 100)
 transitions = ["Start", "States", SubResource("AnimationNodeStateMachineTransition_s2eql")]
 graph_offset = Vector2(-221, -42)
 
@@ -420,8 +353,6 @@ parameters/States/TimeScale/scale = 2.5
 "parameters/States/TimeScale 2/scale" = 5.0
 "parameters/States/TimeScale 3/scale" = 1.0
 "parameters/States/TimeScale 4/scale" = 1.0
-"parameters/States/TimeScale 5/scale" = 2.5
-"parameters/States/TimeScale 6/scale" = 2.5
 parameters/States/Transition/current_state = "lookup"
 parameters/States/Transition/transition_request = ""
 parameters/States/Transition/current_index = 3

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bijr32eq5rlku"
-path="res://.godot/imported/retorno#2.png-dfaf3c007133a8a92e1bf36db50853c2.ctex"
+uid="uid://cnhqjlndj3p7y"
+path="res://.godot/imported/stopping01.png-d1b774dae02268a82369c917ea847e14.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Sonic/sonic-sprites/stoping/retorno#2.png"
-dest_files=["res://.godot/imported/retorno#2.png-dfaf3c007133a8a92e1bf36db50853c2.ctex"]
+source_file="res://Sprites/Sonic/sonic-sprites/stopping/stopping01.png"
+dest_files=["res://.godot/imported/stopping01.png-d1b774dae02268a82369c917ea847e14.ctex"]
 
 [params]
 

@@ -21,7 +21,7 @@ var motion : Vector2 = Vector2.ZERO
 var timer : int = 0;
 var running : bool
 var crouch : bool
-var lastTurn : float
+var last_turn : float
 
 
 #Variable anim_sprite inicializada al cargar que obtiene la clase AnimationPlayer
@@ -55,7 +55,7 @@ func motion_ctrl(delta):
 	velocity = motion
 	
 	#Se aplica la gravedad al no estar en el suelo.
-	if not is_on_floor():
+	if !is_on_floor():
 		motion.y += GRAVITY * delta
 		
 	#Si la direción es diferente de cero, quiere decir que se está moviendo.
@@ -80,18 +80,20 @@ func motion_ctrl(delta):
 	if is_on_floor():
 		jump(delta)
 		
-	print(anim_tree["parameters/States/Transition/transition_request"], standing)
 	lookup(delta)
 	move_and_slide()
+	
+	print("lastTurn: ", last_turn)
+	print("Motion.x: ", sign(motion.x))
 
 #Animaciones Sonic
 func animation():
 	#Si está en dir-derecha, no flip.
 	if (stopping == false):
-		if get_dir().x == 1:
+		if sign(motion.x) == 1:
 			sprite.scale.x = 1 
 		#Si está en dir-izquierda, flip.
-		elif get_dir().x == -1:
+		elif sign(motion.x) == -1:
 			sprite.scale.x = -1
 	#---------------------------------------------
 	#Walk/Jog/Run animations control.
@@ -102,8 +104,11 @@ func animation():
 		if is_on_floor() and !running and !look_up and standing:
 			anim_tree["parameters/States/Transition/transition_request"] = "standing"
 			
-		if stopping == true:
-			anim_tree["parameters/States/Transition/transition_request"] = "lookup"
+		if stopping:
+			anim_tree["parameters/States/Transition/transition_request"] = "stopping"
+			if get_dir().x == last_turn * -1:
+				anim_tree["parameters/States/Transition/transition_request"] = "turn"
+				
 	else:
 		look_up = false;
 	#---------------------------------------------
@@ -115,12 +120,12 @@ func animation():
 	#Look up animation control.
 	if Input.is_action_pressed("look up") and speed == 0 and is_on_floor():
 		anim_tree["parameters/States/Transition/transition_request"] = "lookup"
-	if look_up and !Input.is_action_pressed("look up"):
+	elif look_up and !Input.is_action_pressed("look up"):
 		anim_tree["parameters/States/Transition/transition_request"] = "lookup end"
 		await get_tree().create_timer(0.4).timeout
 		if anim_tree.animation_player_changed:
 			look_up = false
-			
+	
 	if !is_on_floor():
 		anim_tree["parameters/States/Transition/transition_request"] = "jumping"
 
@@ -129,7 +134,7 @@ func run(delta):
 	# // POR QUÉ NO SE COMENTA CON LAS BARRITAS AAAAAAAAAAAAAAAAAAAAAAA
 	# La variable lastTurn guarda el signo de motion cada frame (- o +)
 	# y cada vez que el signo de motion cambie sonic se detiene y da la vuelta
-	if (lastTurn != sign(motion.x)):
+	if (last_turn != sign(motion.x)):
 		if (is_on_floor()):
 			if speed >= (MAX_SPEED * 0.6):
 				stopping = true;
@@ -143,7 +148,7 @@ func run(delta):
 				speed -= speed * 0.5;
 		else:
 			speed -= speed * 0.4;
-	lastTurn = sign(motion.x);
+	last_turn = sign(motion.x);
 	
 	#Si el personaje está yendo en alguna dirección, está corriendo
 	if get_dir().x == 1 or get_dir().x == -1:
@@ -188,7 +193,7 @@ func jump(delta):
 func lookup(delta):
 	var target_camera_y : float = 0.0
 	var camera_smoothing_speed : float = 2.0
-
+	
 	if speed == 0 and standing and is_on_floor() and !jump(delta):
 		can_lookup = true
 	else:
@@ -196,14 +201,14 @@ func lookup(delta):
 		
 	if standing and can_lookup and is_on_floor():
 		if Input.is_action_pressed("look up"):
-			look_up = true
-			standing = false
-			target_camera_y = -60.0
+				look_up = true
+				standing = false
+				target_camera_y = -60.0
 		elif !Input.is_action_pressed("look up") and can_lookup:
 			standing = true
 			target_camera_y = 0.0
 	$Camera2D.position.y = lerp($Camera2D.position.y, target_camera_y, camera_smoothing_speed * delta)
-
+	
 func spin_dash():
 	if is_on_floor() and crouch:
 		if get_dir().x == 1 and Input.is_action_pressed("right"):

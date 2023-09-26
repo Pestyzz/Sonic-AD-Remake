@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://df43ui68o8w6v"
-path="res://.godot/imported/freiando#9.png-a3296c94a489651dfff127039b934210.ctex"
+uid="uid://dcnm4wbftytyt"
+path="res://.godot/imported/stopping05.png-e5ada2c3556836caa4bb5d8c97ad2e34.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Sonic/sonic-sprites/stoping/freiando#9.png"
-dest_files=["res://.godot/imported/freiando#9.png-a3296c94a489651dfff127039b934210.ctex"]
+source_file="res://Sprites/Sonic/sonic-sprites/stopping/stopping05.png"
+dest_files=["res://.godot/imported/stopping05.png-e5ada2c3556836caa4bb5d8c97ad2e34.ctex"]
 
 [params]
 
