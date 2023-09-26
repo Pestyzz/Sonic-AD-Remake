@@ -138,7 +138,7 @@ func run(delta):
 		if (is_on_floor()):
 			if speed >= (MAX_SPEED * 0.6):
 				stopping = true;
-				timer = 20;
+				timer = 30;
 				speed -= speed * 0.5;
 				if motion.x > 0:
 					motion.x = sign(-speed) * speed;
