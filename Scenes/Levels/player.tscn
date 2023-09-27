@@ -403,7 +403,7 @@ shape = SubResource("CapsuleShape2D_dttv2")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, 1)
-texture = ExtResource("2_38hpr")
+texture = ExtResource("3_w0igu")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite2D"]
 root_node = NodePath("../..")

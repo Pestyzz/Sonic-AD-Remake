@@ -3000,6 +3000,7 @@ layer_0/tile_data = PackedInt32Array(458753, 1245184, 0, 458754, 1310720, 0, 458
 
 [node name="Player" parent="." instance=ExtResource("2_dnmgo")]
 position = Vector2(229, 160)
+DEC_SPEED = 300.0
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3

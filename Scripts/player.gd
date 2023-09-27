@@ -18,6 +18,7 @@ var motion : Vector2 = Vector2.ZERO
 @onready var standing : bool = true
 @onready  var jumping : bool = false
 @onready var look_up : bool = false
+@onready var turn : bool = false
 var timer : int = 0;
 var running : bool
 var crouch : bool
@@ -33,6 +34,7 @@ var last_turn : float
 func _ready():
 	anim_tree.active = true
 	can_lookup = false
+	
 func _process(delta):
 	animation()
 
@@ -83,7 +85,9 @@ func motion_ctrl(delta):
 	lookup(delta)
 	move_and_slide()
 	
-	print(anim_tree["parameters/States/Walk-Jog-Run/Walk-Jog-Run/blend_position"])
+	print("Axis: ", get_dir().x)
+	print("Motion.x: ", sign(motion.x))
+	print("lastTurn: ", last_turn)
 
 #Animaciones Sonic
 func animation():
@@ -102,14 +106,12 @@ func animation():
 			anim_tree["parameters/States/Walk-Jog-Run/Walk-Jog-Run/blend_position"] = speed
 		if is_on_floor() and !running and !look_up and standing:
 			anim_tree["parameters/States/Transition/transition_request"] = "standing"
-			
+		#Stopping animation control
 		if stopping:
 			anim_tree["parameters/States/Transition/transition_request"] = "stopping"
-			if get_dir().x == last_turn * -1:
+			if last_turn != sign(get_dir().x):
 				anim_tree["parameters/States/Transition/transition_request"] = "turn"
 				
-	else:
-		look_up = false;
 	#---------------------------------------------
 	#Jump animation control.
 	if jumping:
@@ -137,17 +139,20 @@ func run(delta):
 		if (is_on_floor()):
 			if speed >= (MAX_SPEED * 0.6):
 				stopping = true;
-				timer = 30;
-				speed -= speed * 0.5;
+				timer = 30
+				speed -= speed * 0.5
 				if motion.x > 0:
 					motion.x = sign(-speed) * speed;
 				elif motion.x < 0:
 					motion.x = sign(speed) * speed;
 			else:
-				speed -= speed * 0.5;
+				speed -= speed * 0.5
 		else:
-			speed -= speed * 0.4;
-	last_turn = sign(motion.x);
+			speed -= speed * 0.4
+	if sign(motion.x) == 1:
+		last_turn = 1
+	elif sign(motion.x) == -1:
+		last_turn = -1
 	
 	#Si el personaje está yendo en alguna dirección, está corriendo
 	if get_dir().x == 1 or get_dir().x == -1:
