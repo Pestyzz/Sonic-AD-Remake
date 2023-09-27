@@ -1,3 +1,4 @@
+#testeo inhumanow owowkaoaksodkaoakosdsakd
 extends CharacterBody2D
 #Variables adadsadad
 var speed : float = 0.0
