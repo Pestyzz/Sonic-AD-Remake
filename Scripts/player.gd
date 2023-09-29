@@ -23,6 +23,7 @@ var timer : int = 0;
 var running : bool
 var crouch : bool
 var last_turn : float
+var was_running: bool = false
 
 
 #Variable anim_sprite inicializada al cargar que obtiene la clase AnimationPlayer
@@ -84,10 +85,9 @@ func motion_ctrl(delta):
 		
 	lookup(delta)
 	move_and_slide()
-	
-	print("Axis: ", get_dir().x)
 	print("Motion.x: ", sign(motion.x))
 	print("lastTurn: ", last_turn)
+	print("Axis.x: ", get_dir().x)
 
 #Animaciones Sonic
 func animation():
@@ -109,9 +109,10 @@ func animation():
 		#Stopping animation control
 		if stopping:
 			anim_tree["parameters/States/Transition/transition_request"] = "stopping"
-			if last_turn != sign(get_dir().x):
+			if get_dir().x != last_turn and timer >= 30:
 				anim_tree["parameters/States/Transition/transition_request"] = "turn"
-				
+			
+
 	#---------------------------------------------
 	#Jump animation control.
 	if jumping:
@@ -139,7 +140,7 @@ func run(delta):
 		if (is_on_floor()):
 			if speed >= (MAX_SPEED * 0.6):
 				stopping = true;
-				timer = 30
+				timer = 40
 				speed -= speed * 0.5
 				if motion.x > 0:
 					motion.x = sign(-speed) * speed;
@@ -149,11 +150,12 @@ func run(delta):
 				speed -= speed * 0.5
 		else:
 			speed -= speed * 0.4
+			
 	if sign(motion.x) == 1:
 		last_turn = 1
 	elif sign(motion.x) == -1:
 		last_turn = -1
-	
+		
 	#Si el personaje está yendo en alguna dirección, está corriendo
 	if get_dir().x == 1 or get_dir().x == -1:
 		running = true
@@ -162,7 +164,7 @@ func run(delta):
 		running = false
 		if speed == 0:
 			standing = true
-		
+	
 	#Se define la velocidad de Sonic dependiendo de si está o no corriendo.
 	if running:
 		#La velocidad va incrementando a medida que pasa el tiempo.
@@ -178,7 +180,9 @@ func run(delta):
 			if speed <= 0:
 				#Si la velocidad llega al mínimo, se mantiene ahí.
 				speed = 0
+				
 
+	
 func jump(delta):
 	#Se define si se puede saltar o no
 	if is_on_floor():

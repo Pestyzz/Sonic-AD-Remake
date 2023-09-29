@@ -216,7 +216,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_a1ml0"]
 resource_name = "turn"
-length = 0.60001
+length = 0.6
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -224,10 +224,10 @@ tracks/0/path = NodePath("Sprite2D:texture")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": [ExtResource("60_agujr"), ExtResource("60_agujr"), ExtResource("61_aobka"), ExtResource("61_aobka"), ExtResource("62_64384"), ExtResource("62_64384"), ExtResource("62_64384")]
+"values": [ExtResource("60_agujr"), ExtResource("60_agujr"), ExtResource("61_aobka"), ExtResource("61_aobka"), ExtResource("62_64384"), ExtResource("62_64384")]
 }
 
 [sub_resource type="Animation" id="Animation_m5i8b"]
@@ -262,6 +262,9 @@ _data = {
 "walking": SubResource("Animation_m5i8b")
 }
 
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_qv466"]
+animation = &"turn"
+
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_hhwt4"]
 animation = &"lookup-start"
 
@@ -273,7 +276,7 @@ animation = &"lookup-start"
 
 [sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_t74ms"]
 
-[sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_s54xv"]
+[sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_5ffgj"]
 
 [sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_48xcf"]
 
@@ -344,13 +347,12 @@ animation = &"lookup-end"
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_jqk3c"]
 animation = &"stopping"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_teimo"]
-animation = &"turn"
-
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_gg3dm"]
-graph_offset = Vector2(-387.949, -74.9982)
+graph_offset = Vector2(-465.271, 91.0088)
 nodes/Animation/node = SubResource("AnimationNodeAnimation_hhwt4")
 nodes/Animation/position = Vector2(60, 340)
+"nodes/Animation 2/node" = SubResource("AnimationNodeAnimation_qv466")
+"nodes/Animation 2/position" = Vector2(100, 740)
 nodes/TimeScale/node = SubResource("AnimationNodeTimeScale_48xcf")
 nodes/TimeScale/position = Vector2(286.794, 80)
 "nodes/TimeScale 2/node" = SubResource("AnimationNodeTimeScale_fvxln")
@@ -361,8 +363,8 @@ nodes/TimeScale/position = Vector2(286.794, 80)
 "nodes/TimeScale 4/position" = Vector2(280, 440)
 "nodes/TimeScale 5/node" = SubResource("AnimationNodeTimeScale_t74ms")
 "nodes/TimeScale 5/position" = Vector2(280, 560)
-"nodes/TimeScale 6/node" = SubResource("AnimationNodeTimeScale_s54xv")
-"nodes/TimeScale 6/position" = Vector2(280, 700)
+"nodes/TimeScale 6/node" = SubResource("AnimationNodeTimeScale_5ffgj")
+"nodes/TimeScale 6/position" = Vector2(280, 720)
 nodes/Transition/node = SubResource("AnimationNodeTransition_6kqk7")
 nodes/Transition/position = Vector2(800, 40)
 nodes/Walk-Jog-Run/node = SubResource("AnimationNodeStateMachine_b6o3y")
@@ -376,9 +378,7 @@ nodes/stoping/node = SubResource("AnimationNodeAnimation_dutsu")
 nodes/stoping/position = Vector2(60, 460)
 nodes/stopping/node = SubResource("AnimationNodeAnimation_jqk3c")
 nodes/stopping/position = Vector2(60, 580)
-nodes/turn/node = SubResource("AnimationNodeAnimation_teimo")
-nodes/turn/position = Vector2(60, 700)
-node_connections = [&"output", 0, &"Transition", &"TimeScale", 0, &"Walk-Jog-Run", &"TimeScale 2", 0, &"jumping", &"TimeScale 3", 0, &"Animation", &"TimeScale 4", 0, &"stoping", &"TimeScale 5", 0, &"stopping", &"TimeScale 6", 0, &"turn", &"Transition", 0, &"standing", &"Transition", 1, &"TimeScale", &"Transition", 2, &"TimeScale 2", &"Transition", 3, &"TimeScale 3", &"Transition", 4, &"TimeScale 4", &"Transition", 5, &"TimeScale 5", &"Transition", 6, &"TimeScale 6"]
+node_connections = [&"output", 0, &"Transition", &"TimeScale", 0, &"Walk-Jog-Run", &"TimeScale 2", 0, &"jumping", &"TimeScale 3", 0, &"Animation", &"TimeScale 4", 0, &"stoping", &"TimeScale 5", 0, &"stopping", &"Transition", 0, &"standing", &"Transition", 1, &"TimeScale", &"Transition", 2, &"TimeScale 2", &"Transition", 3, &"TimeScale 3", &"Transition", 4, &"TimeScale 4", &"Transition", 5, &"TimeScale 5", &"Transition", 6, &"TimeScale 6", &"TimeScale 6", 0, &"Animation 2"]
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_s2eql"]
 advance_mode = 2
@@ -421,10 +421,10 @@ parameters/States/TimeScale/scale = 2.5
 "parameters/States/TimeScale 3/scale" = 1.0
 "parameters/States/TimeScale 4/scale" = 1.0
 "parameters/States/TimeScale 5/scale" = 2.5
-"parameters/States/TimeScale 6/scale" = 2.5
-parameters/States/Transition/current_state = "standing"
+"parameters/States/TimeScale 6/scale" = 2.0
+parameters/States/Transition/current_state = "turn"
 parameters/States/Transition/transition_request = ""
-parameters/States/Transition/current_index = 0
+parameters/States/Transition/current_index = 6
 parameters/States/Walk-Jog-Run/Walk-Jog-Run/blend_position = 0.0
 
 [node name="Camera2D" type="Camera2D" parent="."]
