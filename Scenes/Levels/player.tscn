@@ -378,7 +378,7 @@ nodes/stoping/node = SubResource("AnimationNodeAnimation_dutsu")
 nodes/stoping/position = Vector2(60, 460)
 nodes/stopping/node = SubResource("AnimationNodeAnimation_jqk3c")
 nodes/stopping/position = Vector2(60, 580)
-node_connections = [&"output", 0, &"Transition", &"TimeScale", 0, &"Walk-Jog-Run", &"TimeScale 2", 0, &"jumping", &"TimeScale 3", 0, &"Animation", &"TimeScale 4", 0, &"stoping", &"TimeScale 5", 0, &"stopping", &"Transition", 0, &"standing", &"Transition", 1, &"TimeScale", &"Transition", 2, &"TimeScale 2", &"Transition", 3, &"TimeScale 3", &"Transition", 4, &"TimeScale 4", &"Transition", 5, &"TimeScale 5", &"Transition", 6, &"TimeScale 6", &"TimeScale 6", 0, &"Animation 2"]
+node_connections = [&"output", 0, &"Transition", &"TimeScale", 0, &"Walk-Jog-Run", &"TimeScale 2", 0, &"jumping", &"TimeScale 3", 0, &"Animation", &"TimeScale 4", 0, &"stoping", &"TimeScale 5", 0, &"stopping", &"TimeScale 6", 0, &"Animation 2", &"Transition", 0, &"standing", &"Transition", 1, &"TimeScale", &"Transition", 2, &"TimeScale 2", &"Transition", 3, &"TimeScale 3", &"Transition", 4, &"TimeScale 4", &"Transition", 5, &"TimeScale 5", &"Transition", 6, &"TimeScale 6"]
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_s2eql"]
 advance_mode = 2

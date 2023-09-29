@@ -23,7 +23,6 @@ var timer : int = 0;
 var running : bool
 var crouch : bool
 var last_turn : float
-var was_running: bool = false
 
 
 #Variable anim_sprite inicializada al cargar que obtiene la clase AnimationPlayer
@@ -109,24 +108,20 @@ func animation():
 		#Stopping animation control
 		if stopping:
 			anim_tree["parameters/States/Transition/transition_request"] = "stopping"
-			if get_dir().x != last_turn and timer >= 30:
-				anim_tree["parameters/States/Transition/transition_request"] = "turn"
-			
-
+		#Look up animation control.
+		if Input.is_action_pressed("look up") and speed == 0:
+			anim_tree["parameters/States/Transition/transition_request"] = "lookup"
+		elif look_up and !Input.is_action_pressed("look up") and speed == 0:
+			anim_tree["parameters/States/Transition/transition_request"] = "lookup end"
+			await get_tree().create_timer(0.4).timeout
+			if anim_tree.animation_player_changed:
+				look_up = false
 	#---------------------------------------------
 	#Jump animation control.
 	if jumping:
 		look_up = false;
 		anim_tree["parameters/States/Transition/transition_request"] = "jumping"
-	#---------------------------------------------
-	#Look up animation control.
-	if Input.is_action_pressed("look up") and speed == 0 and is_on_floor():
-		anim_tree["parameters/States/Transition/transition_request"] = "lookup"
-	elif look_up and !Input.is_action_pressed("look up"):
-		anim_tree["parameters/States/Transition/transition_request"] = "lookup end"
-		await get_tree().create_timer(0.4).timeout
-		if anim_tree.animation_player_changed:
-			look_up = false
+	#--------------------------------------------
 	
 	if !is_on_floor():
 		anim_tree["parameters/States/Transition/transition_request"] = "jumping"
@@ -206,15 +201,16 @@ func lookup(delta):
 		can_lookup = true
 	else:
 		can_lookup = false
-		
-	if standing and can_lookup and is_on_floor():
-		if Input.is_action_pressed("look up"):
-				look_up = true
-				standing = false
-				target_camera_y = -60.0
-		elif !Input.is_action_pressed("look up") and can_lookup:
-			standing = true
-			target_camera_y = 0.0
+	
+	if is_on_floor():
+		if standing and can_lookup:
+			if Input.is_action_pressed("look up"):
+					look_up = true
+					standing = false
+					target_camera_y = -60.0
+			elif !Input.is_action_pressed("look up") and can_lookup:
+				standing = true
+				target_camera_y = 0.0
 	$Camera2D.position.y = lerp($Camera2D.position.y, target_camera_y, camera_smoothing_speed * delta)
 	
 func spin_dash():
