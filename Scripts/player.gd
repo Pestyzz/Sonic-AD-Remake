@@ -111,19 +111,19 @@ func animation():
 		#Look up animation control.
 		if Input.is_action_pressed("look up") and speed == 0:
 			anim_tree["parameters/States/Transition/transition_request"] = "lookup"
-		elif look_up and !Input.is_action_pressed("look up") and speed == 0:
+		if look_up and !Input.is_action_pressed("look up") and speed == 0:
 			anim_tree["parameters/States/Transition/transition_request"] = "lookup end"
 			await get_tree().create_timer(0.4).timeout
 			if anim_tree.animation_player_changed:
 				look_up = false
+		
 	#---------------------------------------------
 	#Jump animation control.
 	if jumping:
-		look_up = false;
+		look_up = false
 		anim_tree["parameters/States/Transition/transition_request"] = "jumping"
-	#--------------------------------------------
-	
 	if !is_on_floor():
+		look_up = false
 		anim_tree["parameters/States/Transition/transition_request"] = "jumping"
 
 #Funciones de estado
